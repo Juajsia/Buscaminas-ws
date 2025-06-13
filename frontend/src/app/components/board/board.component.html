@@ -1,0 +1,58 @@
+<div class="wrapper">
+  <h2>Buscaminas</h2>
+
+  @if (!gameStarted || gameOver || victory) {
+  <div class="config">
+    <label>
+      Filas:
+      <input type="number" [(ngModel)]="rows" min="2" />
+    </label>
+    <label>
+      Columnas:
+      <input type="number" [(ngModel)]="cols" min="2" />
+    </label>
+    <label>
+      Minas:
+      <input type="number" [(ngModel)]="mines" min="1" />
+    </label>
+  </div>
+
+  <button (click)="createGame()">Crear juego</button>
+  } @if (victory) {
+  <div class="msg">🎉 ¡Ganaste!</div>
+  } @if (gameOver) {
+  <div class="msg">💥 Perdiste</div>
+  } @if (board && board.length > 0) {
+
+  <div class="board">
+    @for (row of board; track $index) {
+    <div class="row">
+      @for (cell of row; track $index) {
+      <div
+        class="cell"
+        [class.revealed]="cell.revealed"
+        [ngClass]="getNumberClass(cell)"
+        (click)="onLeftClick(cell)"
+        (contextmenu)="onRightClick($event, cell)"
+      >
+        @if (cell.revealed) {
+        {{ cell.value === "B" ? "💣" : cell.value === 0 ? "" : cell.value }}
+        } @else { @if (cell.flagged) { 🚩 } }
+      </div>
+      }
+    </div>
+    }
+  </div>
+  } @if (gameStarted) {
+  <button (click)="revealAllAndEnd()">Revelar todo (terminar partida)</button>
+  }
+
+  <h2>Configuración del juego</h2>
+  <p>Selecciona un nivel o personaliza el tamaño del tablero:</p>
+
+  <ul>
+    <li><strong>Principiante:</strong> 8 × 8 casillas y 10 minas</li>
+    <li><strong>Intermedio:</strong> 16 × 16 casillas y 40 minas</li>
+    <li><strong>Experto:</strong> 16 × 30 casillas y 99 minas</li>
+  </ul>
+</div>
