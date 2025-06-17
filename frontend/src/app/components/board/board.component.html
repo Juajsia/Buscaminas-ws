@@ -43,7 +43,7 @@
     </div>
     }
   </div>
-  } @if (gameStarted) {
+  } @if (gameStarted && !gameOver && !victory) {
   <button (click)="revealAllAndEnd()">Revelar todo (terminar partida)</button>
   }
 
